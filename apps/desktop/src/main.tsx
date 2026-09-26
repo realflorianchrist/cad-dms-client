@@ -1,5 +1,5 @@
 import App from '@/App';
-import '@workspace/ui/globals.css';
+import './styles.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { HashRouter } from 'react-router';

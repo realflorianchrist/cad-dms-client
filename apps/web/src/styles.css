@@ -1,0 +1,11 @@
+@import '@workspace/ui/globals.css';
+
+@layer base {
+  body {
+    @apply m-0 bg-background text-foreground;
+  }
+
+  #root {
+    @apply flex h-dvh flex-col overflow-hidden;
+  }
+}

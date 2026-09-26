@@ -1,14 +1,17 @@
-import App from '@/App';
-import './styles.css';
+import { App } from '@workspace/client-ui';
+import { ThemeProvider } from '@workspace/client-ui/components/theme-provider';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { HashRouter } from 'react-router';
+import './styles.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <HashRouter>
-      <App />
-    </HashRouter>
+    <ThemeProvider>
+      <HashRouter>
+        <App />
+      </HashRouter>
+    </ThemeProvider>
   </React.StrictMode>
 );
 

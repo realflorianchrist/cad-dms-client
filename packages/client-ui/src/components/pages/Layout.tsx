@@ -11,13 +11,13 @@ export default function Layout() {
       <header className={'flex h-12 w-full items-center p-4'}>header</header>
       <ResizablePanelGroup
         orientation={'horizontal'}
-        className={'flex h-full flex-1 px-4 py-2'}
+        className={'flex h-full flex-1 p-2'}
       >
         <ResizablePanel
           defaultSize={'15'}
           minSize={'10'}
           maxSize={'40'}
-          className={''}
+          className={'px-2 py-2'}
         >
           <nav aria-label="main-navigation" className="h-full overflow-y-auto">
             navigation

@@ -1,4 +1,4 @@
-import paths from '@/paths';
+import paths from '../../paths';
 import { Link } from 'react-router';
 
 export default function Home() {

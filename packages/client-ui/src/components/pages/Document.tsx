@@ -1,4 +1,4 @@
-import paths from '@/paths';
+import paths from '../../paths';
 import { Link, useParams } from 'react-router';
 
 export default function Document() {

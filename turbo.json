@@ -19,6 +19,16 @@
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "desktop#build": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": ["dist/**", "dist-electron/**", "release/**"]
     }
-  }
+  },
+  "globalDependencies": [
+    "tsconfig.json",
+    "tsconfig.react.json",
+    "eslint.config.mjs"
+  ]
 }

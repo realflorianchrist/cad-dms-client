@@ -1,15 +1,17 @@
 import { Route, Routes } from 'react-router';
-import Document from './components/pages/Document';
-import Home from './components/pages/Home';
+import Directory from './components/pages/Directory';
 import Layout from './components/pages/Layout';
+import Project from './components/pages/Project';
+import Projects from './components/pages/Projects';
 import paths from './paths';
 
 export default function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
-        <Route path={paths.home.path} element={<Home />} />
-        <Route path={paths.documents.path} element={<Document />} />
+        <Route path={paths.projects.path} element={<Projects />} />
+        <Route path={paths.project.path} element={<Project />} />
+        <Route path={paths.directory.path} element={<Directory />} />
       </Route>
     </Routes>
   );

@@ -2,7 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
 import { App } from '@workspace/client-ui';
-import { ThemeProvider } from '@workspace/client-ui/components/theme-provider';
+import { ThemeProvider } from '@workspace/client-ui/components/ThemeProvider';
 import { BrowserRouter } from 'react-router';
 import './styles.css';
 

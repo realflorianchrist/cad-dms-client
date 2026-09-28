@@ -3,6 +3,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from '@workspace/ui/components/resizable';
+import Panel from './Panel';
 
 export default function LeftPanel() {
   return (
@@ -11,12 +12,12 @@ export default function LeftPanel() {
         orientation={'vertical'}
         className={'flex w-full flex-1'}
       >
-        <ResizablePanel maxSize={'80'} className={'px-4 py-2'}>
-          nav-1
+        <ResizablePanel maxSize={'80'}>
+          <Panel className={'px-4 py-2'}>nav-1</Panel>
         </ResizablePanel>
         <ResizableHandle />
-        <ResizablePanel maxSize={'80'} className={'px-4 py-2'}>
-          nav-2
+        <ResizablePanel maxSize={'80'}>
+          <Panel className={'px-4 py-2'}>nav-1</Panel>
         </ResizablePanel>
       </ResizablePanelGroup>
     </nav>

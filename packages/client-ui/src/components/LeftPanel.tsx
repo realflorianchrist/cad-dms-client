@@ -3,7 +3,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from '@workspace/ui/components/resizable';
-import Panel from './Panel';
+import { Panel } from './Panel';
 
 export default function LeftPanel() {
   return (

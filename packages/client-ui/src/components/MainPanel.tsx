@@ -18,16 +18,14 @@ export default function MainPanel({
       className={'flex w-full flex-1'}
     >
       <ResizablePanel defaultSize={'70'} minSize={'20'} maxSize={'80'}>
-        <main className={'h-full overflow-y-auto'}>
-          <Panel>
-            <PanelHeader>Header</PanelHeader>
-            <PanelBody>{children}</PanelBody>
-          </Panel>
-        </main>
+        <main className={'h-full overflow-y-auto'}>{children}</main>
       </ResizablePanel>
       <ResizableHandle />
       <ResizablePanel>
-        <Panel className={'px-4 py-2'}>infos to {id}</Panel>
+        <Panel>
+          <PanelHeader>Infos</PanelHeader>
+          <PanelBody>to {id}</PanelBody>
+        </Panel>
       </ResizablePanel>
     </ResizablePanelGroup>
   );

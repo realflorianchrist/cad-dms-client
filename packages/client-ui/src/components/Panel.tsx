@@ -7,7 +7,10 @@ function Panel({
   ...props
 }: ComponentPropsWithoutRef<'div'> & { children?: ReactNode }) {
   return (
-    <div className={cn('flex h-full w-full flex-col', className)} {...props}>
+    <div
+      className={cn('flex h-full w-full flex-col overflow-hidden', className)}
+      {...props}
+    >
       {children}
     </div>
   );
@@ -21,7 +24,7 @@ function PanelHeader({
   return (
     <div
       className={cn(
-        'flex h-fit w-full rounded-t-xl border border-border bg-gray-900 px-4 py-2',
+        'flex h-fit w-full rounded-t-lg border border-border bg-card px-4 py-2',
         className
       )}
       {...props}
@@ -39,7 +42,7 @@ function PanelBody({
   return (
     <div
       className={cn(
-        'flex h-full w-full rounded-b-xl border-r border-b border-l border-border bg-gray-900 px-4 py-2',
+        'flex h-full w-full scrollbar-gutter-stable flex-col overflow-auto rounded-b-lg border-r border-b border-l border-border bg-card px-4 py-2',
         className
       )}
       {...props}

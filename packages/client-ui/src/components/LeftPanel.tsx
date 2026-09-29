@@ -3,7 +3,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from '@workspace/ui/components/resizable';
-import { Panel } from './Panel';
+import { Panel, PanelBody, PanelHeader } from './Panel';
 
 export default function LeftPanel() {
   return (
@@ -13,11 +13,17 @@ export default function LeftPanel() {
         className={'flex w-full flex-1'}
       >
         <ResizablePanel maxSize={'80'}>
-          <Panel className={'px-4 py-2'}>nav-1</Panel>
+          <Panel>
+            <PanelHeader>nav-1</PanelHeader>
+            <PanelBody>tree</PanelBody>
+          </Panel>
         </ResizablePanel>
         <ResizableHandle />
         <ResizablePanel maxSize={'80'}>
-          <Panel className={'px-4 py-2'}>nav-1</Panel>
+          <Panel>
+            <PanelHeader>nav-2</PanelHeader>
+            <PanelBody>tree</PanelBody>
+          </Panel>
         </ResizablePanel>
       </ResizablePanelGroup>
     </nav>

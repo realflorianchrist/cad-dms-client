@@ -4,6 +4,7 @@ import {
   ResizablePanelGroup,
 } from '@workspace/ui/components/resizable';
 import { Panel, PanelBody, PanelHeader } from './Panel';
+import Treeview from './treeview/Treeview';
 
 export default function LeftPanel() {
   return (
@@ -15,7 +16,9 @@ export default function LeftPanel() {
         <ResizablePanel maxSize={'80'}>
           <Panel>
             <PanelHeader>nav-1</PanelHeader>
-            <PanelBody>tree</PanelBody>
+            <PanelBody className={'px-0'}>
+              <Treeview />
+            </PanelBody>
           </Panel>
         </ResizablePanel>
         <ResizableHandle />

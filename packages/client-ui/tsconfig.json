@@ -3,6 +3,7 @@
   "compilerOptions": {
     "types": ["react", "react-dom"],
     "paths": {
+      "@workspace/client-ui/api": ["./src/api/index.ts"],
       "@/*": ["./src/*"],
       "@workspace/ui/*": ["../ui/src/*"]
     }

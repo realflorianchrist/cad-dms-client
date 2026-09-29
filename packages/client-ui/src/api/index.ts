@@ -11,3 +11,4 @@ export {
 } from './client/graphql';
 export { useProject } from './hooks/useProject';
 export { useProjects } from './hooks/useProjects';
+export { useDirectory } from './hooks/useDirectory';

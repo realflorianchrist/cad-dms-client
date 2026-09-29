@@ -3,5 +3,12 @@ query Projects {
     projectId
     name
     archived
+    directories {
+      directoryId
+      name
+    }
+    documents {
+      documentId
+    }
   }
 }

@@ -1,0 +1,11 @@
+query Directory($directoryId: ID!) {
+  directory(directoryId: $directoryId) {
+    directoryId
+    name
+    archived
+    directories {
+      directoryId
+      name
+    }
+  }
+}

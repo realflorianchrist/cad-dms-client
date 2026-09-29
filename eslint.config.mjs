@@ -11,6 +11,7 @@ export default defineConfig([
     '**/dist-electron/**',
     '**/release/**',
     '**/.turbo/**',
+    '**/src/api/generated/**',
   ]),
   {
     files: ['**/*.{ts,tsx}'],

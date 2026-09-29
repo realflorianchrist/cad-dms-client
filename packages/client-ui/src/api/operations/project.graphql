@@ -1,0 +1,11 @@
+query Project($projectId: ID!) {
+  project(projectId: $projectId) {
+    projectId
+    name
+    archived
+    directories {
+      directoryId
+      name
+    }
+  }
+}

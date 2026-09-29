@@ -9,3 +9,5 @@ export {
   type GraphQLResponseError,
   type GraphQLTransport,
 } from './client/graphql';
+export { useProject } from './hooks/useProject';
+export { useProjects } from './hooks/useProjects';

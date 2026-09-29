@@ -3,6 +3,7 @@ packages:
   - 'packages/*'
 
 allowBuilds:
+  '@parcel/watcher': false
   electron-winstaller: true
   esbuild: true
   msw: false

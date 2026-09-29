@@ -1,3 +1,5 @@
+import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
+import { print, type DocumentNode } from 'graphql';
 import {
   useMutation,
   useQuery,
@@ -12,29 +14,31 @@ import { executeGraphQL } from './graphql';
 /** Variables and operation are always included to keep cache entries distinct. */
 export const apiQueryKey = (
   key: QueryKey,
-  query: string,
+  document: DocumentNode,
   variables?: object,
   operationName?: string
-): QueryKey => [...key, { query, variables, operationName }];
+): QueryKey => [...key, { query: print(document), variables, operationName }];
 
 export function useApiQuery<
   TData,
   TVariables extends object = Record<string, never>,
   TSelected = TData,
 >(
-  query: string,
+  document: TypedDocumentNode<TData, TVariables>,
   options: {
     queryKey: QueryKey;
-    variables?: TVariables;
     operationName?: string;
     queryOptions?: Omit<
       UseQueryOptions<TData, Error, TSelected>,
       'queryFn' | 'queryKey'
     >;
-  }
+  } & (Record<string, never> extends TVariables
+    ? { variables?: NoInfer<TVariables> }
+    : { variables: NoInfer<TVariables> })
 ) {
   const transport = useApiTransport();
   const { queryKey, variables, operationName, queryOptions } = options;
+  const query = print(document);
 
   return useQuery<TData, Error, TSelected>({
     staleTime: 60_000,
@@ -42,7 +46,7 @@ export function useApiQuery<
     refetchOnReconnect: true,
     gcTime: 30 * 60_000,
     ...queryOptions,
-    queryKey: apiQueryKey(queryKey, query, variables, operationName),
+    queryKey: apiQueryKey(queryKey, document, variables, operationName),
     queryFn: ({ signal }) =>
       executeGraphQL<TData>(
         transport,
@@ -54,10 +58,10 @@ export function useApiQuery<
 
 export function useApiMutation<
   TData,
-  TVariables extends object | void = void,
+  TVariables extends object = Record<string, never>,
   TOnMutateResult = unknown,
 >(
-  query: string,
+  document: TypedDocumentNode<TData, TVariables>,
   options?: {
     operationName?: string;
     mutationOptions?: Omit<
@@ -72,6 +76,7 @@ export function useApiMutation<
   const transport = useApiTransport();
   const queryClient = useQueryClient();
   const { operationName, mutationOptions, invalidateKeys } = options ?? {};
+  const query = print(document);
 
   return useMutation<TData, Error, TVariables, TOnMutateResult>({
     ...mutationOptions,
@@ -86,11 +91,13 @@ export function useApiMutation<
         typeof invalidateKeys === 'function'
           ? invalidateKeys(data, variables)
           : invalidateKeys;
+
       await Promise.all(
         (keys ?? []).map((queryKey) =>
           queryClient.invalidateQueries({ queryKey })
         )
       );
+
       await mutationOptions?.onSuccess?.(
         data,
         variables,

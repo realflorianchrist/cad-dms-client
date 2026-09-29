@@ -1,0 +1,7 @@
+query Projects {
+  projects {
+    projectId
+    name
+    archived
+  }
+}

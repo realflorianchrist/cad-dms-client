@@ -6,6 +6,32 @@ query Directory($directoryId: ID!) {
     directories {
       directoryId
       name
+      archived
+    }
+    documents {
+      documentId
+      archived
+      currentVersion {
+        documentVersionId
+        number
+        name
+        extension
+      }
+      versions {
+        documentVersionId
+        number
+        name
+        extension
+      }
+      metadataValues {
+        definition {
+          metadataDefinitionId
+          key
+          label
+          type
+        }
+        value
+      }
     }
   }
 }

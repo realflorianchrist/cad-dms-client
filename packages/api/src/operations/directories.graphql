@@ -1,0 +1,7 @@
+query Directories {
+  directories {
+    directoryId
+    name
+    archived
+  }
+}

@@ -1,15 +1,21 @@
-import { useProjects } from '@workspace/api/react';
-import ProjectTreeNode from './ProjectTreeNode';
+import DirectoryTreeNode from './DirectoryTreeNode';
+import { useRootDirectories } from '../../../../api/src/hooks/useDirectories';
 
 export default function Treeview() {
-  const queryResult = useProjects();
+  const query = useRootDirectories();
 
-  if (queryResult.isLoading) return <div>loading...</div>;
+  if (query.isPending) return <div>Loading directories...</div>;
+
+  if (query.isError)
+    return (
+      <div role="alert">Could not load directories: {query.error.message}</div>
+    );
 
   return (
-    <div className={'h-full px-1'}>
-      {queryResult.data?.map((project) => (
-        <ProjectTreeNode key={project.projectId} project={project} />
+    <div className="h-full px-1">
+      {query.data.length === 0 && <p>No directories.</p>}
+      {query.data.map((directory) => (
+        <DirectoryTreeNode key={directory.directoryId} directory={directory} />
       ))}
     </div>
   );

@@ -17,6 +17,9 @@ export default function Chevron({
     <div className={cn('flex w-8 justify-center', className)} {...props}>
       {isVisible && (
         <button
+          type="button"
+          aria-label={isOpen ? 'Collapse directory' : 'Expand directory'}
+          aria-expanded={isOpen}
           className={'cursor-pointer'}
           onClick={(e) => {
             e.stopPropagation();

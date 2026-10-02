@@ -1,5 +1,5 @@
 export { ApiProvider } from './client/ApiProvider';
 export { apiQueryKey, useApiMutation, useApiQuery } from './client/reactQuery';
-export { useProject } from './hooks/useProject';
-export { useProjects } from './hooks/useProjects';
+export { useDirectories } from './hooks/useDirectories';
+export { useDocument } from './hooks/useDocument';
 export { useDirectory } from './hooks/useDirectory';

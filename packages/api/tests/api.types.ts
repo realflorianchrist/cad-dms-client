@@ -1,27 +1,39 @@
 import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
+import { useDocument } from '../src/hooks/useDocument';
 import { useApiMutation, useApiQuery } from '../src/client/reactQuery';
-import { ProjectDocument, ProjectsDocument } from '../src/generated/graphql';
+import {
+  DirectoryDocument,
+  DirectoriesDocument,
+} from '../src/generated/graphql';
 
 // Compile-only regression checks; never rendered or executed.
 export function useApiTypeChecks() {
-  const projects = useApiQuery(ProjectsDocument, {
-    queryKey: ['projects'],
-    queryOptions: { select: (data) => data.projects },
+  const document = useDocument('directory-id', 'document-id');
+  const documentName: string | undefined = document.data?.currentVersion.name;
+  const versionNumber: number | undefined =
+    document.data?.currentVersion.number;
+  // @ts-expect-error Document names belong to versions.
+  void document.data?.name;
+  void documentName;
+  void versionNumber;
+  const directories = useApiQuery(DirectoriesDocument, {
+    queryKey: ['directories'],
+    queryOptions: { select: (data) => data.directories },
   });
-  const name: string | undefined = projects.data?.[0]?.name;
+  const name: string | undefined = directories.data?.[0]?.name;
   // @ts-expect-error Only selected fields exist in the result.
-  void projects.data?.[0]?.createdAt;
+  void directories.data?.[0]?.createdAt;
 
-  useApiQuery(ProjectDocument, {
-    queryKey: ['project'],
-    variables: { projectId: 'id' },
+  useApiQuery(DirectoryDocument, {
+    queryKey: ['directory'],
+    variables: { directoryId: 'id' },
   });
-  // @ts-expect-error Project requires variables.
-  useApiQuery(ProjectDocument, { queryKey: ['project'] });
-  useApiQuery(ProjectDocument, {
-    queryKey: ['project'],
+  // @ts-expect-error Directory requires variables.
+  useApiQuery(DirectoryDocument, { queryKey: ['directory'] });
+  useApiQuery(DirectoryDocument, {
+    queryKey: ['directory'],
     // @ts-expect-error Boolean is not a GraphQL ID.
-    variables: { projectId: true },
+    variables: { directoryId: true },
   });
 
   return name;

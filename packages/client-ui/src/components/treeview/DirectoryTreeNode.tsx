@@ -1,45 +1,77 @@
-import type { DirectoryQueryVariables } from '@workspace/api/generated';
+import type { DirectoriesQuery } from '@workspace/api/generated';
+import { useDirectory } from '@workspace/api/react';
 import { useState } from 'react';
+import { Link } from 'react-router';
+import paths from '../../paths';
 import TreeNode from './TreeNode';
 import Chevron from './Chevron';
-import { useDirectory } from '@workspace/api/react';
-
 export default function DirectoryTreeNode({
-  directoryId,
+  directory,
   depth = 0,
 }: {
-  directoryId: NonNullable<DirectoryQueryVariables['directoryId']>;
+  directory: DirectoriesQuery['directories'][number];
   depth?: number;
 }) {
-  const { data: directory, isLoading } = useDirectory(directoryId);
-
   const [isOpen, setIsOpen] = useState(false);
+  const query = useDirectory(directory.directoryId, { enabled: isOpen });
+  const contents = query.data;
 
   return (
     <div>
       <TreeNode depth={depth}>
-        <div className={'flex items-center'}>
+        <div className="flex w-full items-center">
           <Chevron
-            isVisible={directory != null && directory.directories.length > 0}
+            isVisible={
+              contents == null ||
+              contents.directories.length > 0 ||
+              contents.documents.length > 0
+            }
             isOpen={isOpen}
             setIsOpen={setIsOpen}
           />
-
-          <div className={'flex flex-1 items-center gap-2'}>
-            {isLoading && <div>...loading</div>}
-            {directory?.name}
-          </div>
+          <Link
+            to={paths.directory.to(directory.directoryId)}
+            className="flex-1"
+          >
+            {directory.name}
+            {directory.archived && ' (archived)'}
+          </Link>
         </div>
       </TreeNode>
-
-      {isOpen &&
-        directory?.directories.map((dir) => (
-          <DirectoryTreeNode
-            key={dir.directoryId}
-            depth={depth + 1}
-            directoryId={dir.directoryId}
-          />
-        ))}
+      {isOpen && (
+        <>
+          {query.isPending && <div role="status">Loading directory...</div>}
+          {query.isError && (
+            <div role="alert">
+              Could not load directory: {query.error.message}
+            </div>
+          )}
+          {contents === null && <div>Directory not found.</div>}
+          {contents?.directories.map((child) => (
+            <DirectoryTreeNode
+              key={child.directoryId}
+              depth={depth + 1}
+              directory={child}
+            />
+          ))}
+          {contents?.documents.map((document) => (
+            <TreeNode key={document.documentId} depth={depth + 1}>
+              <Chevron isVisible={false} isOpen={false} setIsOpen={() => {}} />
+              <Link
+                to={paths.document.to(
+                  directory.directoryId,
+                  document.documentId
+                )}
+              >
+                {document.currentVersion.name}
+                {document.currentVersion.extension &&
+                  `.${document.currentVersion.extension}`}
+                {document.archived && ' (archived)'}
+              </Link>
+            </TreeNode>
+          ))}
+        </>
+      )}
     </div>
   );
 }

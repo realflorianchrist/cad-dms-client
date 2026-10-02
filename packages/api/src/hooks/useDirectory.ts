@@ -4,14 +4,15 @@ import {
   type DirectoryQueryVariables,
 } from '../generated/graphql';
 
-export function useDirectory(
-  directoryId: DirectoryQueryVariables['directoryId']
-) {
-  return useApiQuery(DirectoryDocument, {
+export const useDirectory = (
+  directoryId: DirectoryQueryVariables['directoryId'],
+  options: { enabled?: boolean } = {}
+) =>
+  useApiQuery(DirectoryDocument, {
     queryKey: ['directory'],
     variables: { directoryId },
     queryOptions: {
+      ...options,
       select: (data) => data.directory,
     },
   });
-}

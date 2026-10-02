@@ -95,19 +95,11 @@ type DocumentVersion {
   createdBy: User!
 }
 
-# type Data {
-#   documents: [Document!]!
-#   directories: [Directory!]!
-# }
-
 type Query {
   user(userId: ID!): User
   users: [User!]!
 
   directory(directoryId: ID!): Directory
   directories: [Directory!]!
-
-  # directoryData(directoryId: ID!): Data!
-
-  # directoryTree(directoryId: ID!, depth: Int! = 2): Directory!
+  rootDirectories: [Directory!]!
 }

@@ -11,12 +11,12 @@ export default function TreeNode({
   return (
     <div
       className={cn(
-        'flex cursor-pointer items-center gap-2 text-sm select-none',
+        'flex cursor-pointer gap-2 text-sm select-none',
         'rounded-md py-1 hover:bg-accent/40'
       )}
       style={{ paddingLeft: `${depth * 0.5}rem` }}
     >
-      <div className={'flex flex-col items-center'}>{children}</div>
+      <div className={'flex w-full flex-col'}>{children}</div>
     </div>
   );
 }

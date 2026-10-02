@@ -8,6 +8,14 @@ export type Incremental<T> =
       [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
     };
 import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+export type MetadataType = 'BOOLEAN' | 'DATE' | 'ENUM' | 'NUMBER' | 'TEXT';
+
+export type DirectoriesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type DirectoriesQuery = {
+  directories: Array<{ directoryId: string; name: string; archived: boolean }>;
+};
+
 export type DirectoryQueryVariables = Exact<{
   directoryId: string | number;
 }>;
@@ -17,36 +25,81 @@ export type DirectoryQuery = {
     directoryId: string;
     name: string;
     archived: boolean;
-    directories: Array<{ directoryId: string; name: string }>;
+    directories: Array<{
+      directoryId: string;
+      name: string;
+      archived: boolean;
+    }>;
+    documents: Array<{
+      documentId: string;
+      archived: boolean;
+      currentVersion: {
+        documentVersionId: string;
+        number: number;
+        name: string;
+        extension: string;
+      };
+      versions: Array<{
+        documentVersionId: string;
+        number: number;
+        name: string;
+        extension: string;
+      }>;
+      metadataValues: Array<{
+        value: string;
+        definition: {
+          metadataDefinitionId: string;
+          key: string;
+          label: string;
+          type: MetadataType;
+        };
+      }>;
+    }>;
   } | null;
 };
 
-export type ProjectQueryVariables = Exact<{
-  projectId: string | number;
-}>;
+export type RootDirectoriesQueryVariables = Exact<{ [key: string]: never }>;
 
-export type ProjectQuery = {
-  project: {
-    projectId: string;
+export type RootDirectoriesQuery = {
+  rootDirectories: Array<{
+    directoryId: string;
     name: string;
     archived: boolean;
-    directories: Array<{ directoryId: string; name: string }>;
-    documents: Array<{ documentId: string }>;
-  } | null;
-};
-
-export type ProjectsQueryVariables = Exact<{ [key: string]: never }>;
-
-export type ProjectsQuery = {
-  projects: Array<{
-    projectId: string;
-    name: string;
-    archived: boolean;
-    directories: Array<{ directoryId: string; name: string }>;
-    documents: Array<{ documentId: string }>;
+    directories: Array<{
+      directoryId: string;
+      name: string;
+      archived: boolean;
+    }>;
   }>;
 };
 
+export const DirectoriesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'Directories' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'directories' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'directoryId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'archived' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<DirectoriesQuery, DirectoriesQueryVariables>;
 export const DirectoryDocument = {
   kind: 'Document',
   definitions: [
@@ -100,6 +153,124 @@ export const DirectoryDocument = {
                         name: { kind: 'Name', value: 'directoryId' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'archived' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'documents' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'archived' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'currentVersion' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'documentVersionId',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'number' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'extension' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'versions' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'documentVersionId',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'number' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'extension' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'metadataValues' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'definition' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'metadataDefinitionId',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'key' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'label' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'type' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'value' },
+                            },
+                          ],
+                        },
+                      },
                     ],
                   },
                 },
@@ -111,46 +282,23 @@ export const DirectoryDocument = {
     },
   ],
 } as unknown as DocumentNode<DirectoryQuery, DirectoryQueryVariables>;
-export const ProjectDocument = {
+export const RootDirectoriesDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'Project' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'projectId' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          },
-        },
-      ],
+      name: { kind: 'Name', value: 'rootDirectories' },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'project' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'projectId' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'projectId' },
-                },
-              },
-            ],
+            name: { kind: 'Name', value: 'rootDirectories' },
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'projectId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'directoryId' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'name' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'archived' } },
                 {
@@ -164,18 +312,9 @@ export const ProjectDocument = {
                         name: { kind: 'Name', value: 'directoryId' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'documents' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
                       {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'documentId' },
+                        name: { kind: 'Name', value: 'archived' },
                       },
                     ],
                   },
@@ -187,58 +326,7 @@ export const ProjectDocument = {
       },
     },
   ],
-} as unknown as DocumentNode<ProjectQuery, ProjectQueryVariables>;
-export const ProjectsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'Projects' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'projects' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'projectId' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'archived' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'directories' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'directoryId' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'documents' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'documentId' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<ProjectsQuery, ProjectsQueryVariables>;
+} as unknown as DocumentNode<
+  RootDirectoriesQuery,
+  RootDirectoriesQueryVariables
+>;

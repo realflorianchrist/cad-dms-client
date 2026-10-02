@@ -1,10 +1,11 @@
 const paths = {
-  projects: {
+  directories: {
     path: '/',
   },
-  project: {
-    path: '/project/:id',
-    to: (id: string) => `/project/${encodeURIComponent(id)}`,
+  document: {
+    path: '/directory/:directoryId/document/:id',
+    to: (directoryId: string, id: string) =>
+      `/directory/${encodeURIComponent(directoryId)}/document/${encodeURIComponent(id)}`,
   },
   directory: {
     path: '/directory/:id',

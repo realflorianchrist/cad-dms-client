@@ -7,7 +7,7 @@ TanStack Query still owns caching, retries, loading states and invalidation.
 ## Package entry points
 
 - `@workspace/api`: transport, execution, errors and shared request/response types; no React imports.
-- `@workspace/api/react`: provider, query/mutation hooks and project/directory hooks.
+- `@workspace/api/react`: provider, query/mutation hooks and directory/document hooks.
 - `@workspace/api/generated`: generated GraphQL types and operation documents.
 
 Apps own endpoints, authentication and Electron IPC. This package does not depend on UI packages.
@@ -28,7 +28,7 @@ pnpm --filter @workspace/api codegen:watch
 
 Write operations in `src/operations/*.graphql`. Codegen validates them against
 the schema and writes `src/generated/`. Commit generated files; do not edit
-them manually. The current schema has queries only, so no create-project mutation
+them manually. The current schema has queries only, so no create-directory mutation
 can be generated yet.
 
 `DateTime` and `Long` currently map to `unknown`: the schema alone does not define
@@ -44,30 +44,30 @@ inside `.graphql` files. Both editor and codegen use the same schema snapshot.
 ```tsx
 import { useApiQuery } from '@workspace/api/react';
 import {
-  ProjectDocument,
-  ProjectsDocument,
+  DirectoryDocument,
+  DirectoriesDocument,
 } from '@workspace/api/generated';
 
-const projects = useApiQuery(ProjectsDocument, {
-  queryKey: ['projects'],
-  queryOptions: { select: (data) => data.projects },
+const directories = useApiQuery(DirectoriesDocument, {
+  queryKey: ['directories'],
+  queryOptions: { select: (data) => data.directories },
 });
-// projects.data: array of { projectId, name, archived } | undefined
+// directories.data: array of { directoryId, name, archived } | undefined
 
-const project = useApiQuery(ProjectDocument, {
-  queryKey: ['project'],
-  variables: { projectId: 'example-id' },
+const directory = useApiQuery(DirectoryDocument, {
+  queryKey: ['directory'],
+  variables: { directoryId: 'example-id' },
 });
-// project.data?.project can be null if the project does not exist.
+// directory.data?.directory can be null if the directory does not exist.
 ```
 
 `useApiMutation` also accepts a generated document. Once the backend supplies
-mutations, pass `invalidateKeys: [['projects']]` to refresh matching queries after
+mutations, pass `invalidateKeys: [['directories']]` to refresh matching queries after
 success. Custom `mutationOptions.onSuccess` and invalidation are both awaited.
 For an operation without variables, call `mutate({})`.
 
 Keys automatically include the printed document, operation name and variables.
-Use a prefix such as `['projects']` for invalidation; `apiQueryKey` accepts the
+Use a prefix such as `['directories']` for invalidation; `apiQueryKey` accepts the
 same document to build a full key for exact cache access.
 
 ## App-specific transport
@@ -108,18 +108,22 @@ reject with `GraphQLClientError`. Extensions and paths are preserved in `.errors
 HTTP failures expose `.status`. Network errors remain ordinary Errors. Clear the
 cache when switching users/backends.
 
-## Project hooks
+## Directory hooks
 
-`hooks/useProjects.ts` and `hooks/useProject.ts` wrap the example operations and
-select their root fields, so components receive the list or project directly:
+`hooks/useDirectories.ts` and `hooks/useDirectory.ts` wrap the example operations and
+select their root fields, so components receive the list or directory directly:
 
 ```tsx
-import { useProject, useProjects } from '@workspace/api/react';
+import { useDirectory, useDirectories } from '@workspace/api/react';
 
-const { data: projects, isPending } = useProjects();
-const { data: project } = useProject('example-id');
+const { data: directories, isPending } = useDirectories();
+const { data: directory } = useDirectory('example-id');
 ```
 
-Use these inside `ApiProvider`. `project` is `undefined` before data is available
-and can be `null` when the backend finds no matching project. The ID is included
+Use these inside `ApiProvider`. `directory` is `undefined` before data is available
+and can be `null` when the backend finds no matching directory. The ID is included
 in the cache key automatically through the operation variables.
+
+## Documents
+
+Documents are queried through their containing directory. useDocument(directoryId, documentId) shares the directory query cache and returns the selected document, or null when it is absent. Names and extensions belong to currentVersion. Directory tree contents load on expansion.

@@ -14,17 +14,17 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 type Documents = {
-  'query Directory($directoryId: ID!) {\n  directory(directoryId: $directoryId) {\n    directoryId\n    name\n    archived\n    directories {\n      directoryId\n      name\n    }\n  }\n}': typeof types.DirectoryDocument;
-  'query Project($projectId: ID!) {\n  project(projectId: $projectId) {\n    projectId\n    name\n    archived\n    directories {\n      directoryId\n      name\n    }\n    documents {\n      documentId\n    }\n  }\n}': typeof types.ProjectDocument;
-  'query Projects {\n  projects {\n    projectId\n    name\n    archived\n    directories {\n      directoryId\n      name\n    }\n    documents {\n      documentId\n    }\n  }\n}': typeof types.ProjectsDocument;
+  'query Directories {\n  directories {\n    directoryId\n    name\n    archived\n  }\n}': typeof types.DirectoriesDocument;
+  'query Directory($directoryId: ID!) {\n  directory(directoryId: $directoryId) {\n    directoryId\n    name\n    archived\n    directories {\n      directoryId\n      name\n      archived\n    }\n    documents {\n      documentId\n      archived\n      currentVersion {\n        documentVersionId\n        number\n        name\n        extension\n      }\n      versions {\n        documentVersionId\n        number\n        name\n        extension\n      }\n      metadataValues {\n        definition {\n          metadataDefinitionId\n          key\n          label\n          type\n        }\n        value\n      }\n    }\n  }\n}': typeof types.DirectoryDocument;
+  'query rootDirectories {\n  rootDirectories {\n    directoryId\n    name\n    archived\n    directories {\n      directoryId\n      name\n      archived\n    }\n  }\n}': typeof types.RootDirectoriesDocument;
 };
 const documents: Documents = {
-  'query Directory($directoryId: ID!) {\n  directory(directoryId: $directoryId) {\n    directoryId\n    name\n    archived\n    directories {\n      directoryId\n      name\n    }\n  }\n}':
+  'query Directories {\n  directories {\n    directoryId\n    name\n    archived\n  }\n}':
+    types.DirectoriesDocument,
+  'query Directory($directoryId: ID!) {\n  directory(directoryId: $directoryId) {\n    directoryId\n    name\n    archived\n    directories {\n      directoryId\n      name\n      archived\n    }\n    documents {\n      documentId\n      archived\n      currentVersion {\n        documentVersionId\n        number\n        name\n        extension\n      }\n      versions {\n        documentVersionId\n        number\n        name\n        extension\n      }\n      metadataValues {\n        definition {\n          metadataDefinitionId\n          key\n          label\n          type\n        }\n        value\n      }\n    }\n  }\n}':
     types.DirectoryDocument,
-  'query Project($projectId: ID!) {\n  project(projectId: $projectId) {\n    projectId\n    name\n    archived\n    directories {\n      directoryId\n      name\n    }\n    documents {\n      documentId\n    }\n  }\n}':
-    types.ProjectDocument,
-  'query Projects {\n  projects {\n    projectId\n    name\n    archived\n    directories {\n      directoryId\n      name\n    }\n    documents {\n      documentId\n    }\n  }\n}':
-    types.ProjectsDocument,
+  'query rootDirectories {\n  rootDirectories {\n    directoryId\n    name\n    archived\n    directories {\n      directoryId\n      name\n      archived\n    }\n  }\n}':
+    types.RootDirectoriesDocument,
 };
 
 /**
@@ -45,20 +45,20 @@ export function graphql(source: string): unknown;
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: 'query Directory($directoryId: ID!) {\n  directory(directoryId: $directoryId) {\n    directoryId\n    name\n    archived\n    directories {\n      directoryId\n      name\n    }\n  }\n}'
-): (typeof documents)['query Directory($directoryId: ID!) {\n  directory(directoryId: $directoryId) {\n    directoryId\n    name\n    archived\n    directories {\n      directoryId\n      name\n    }\n  }\n}'];
+  source: 'query Directories {\n  directories {\n    directoryId\n    name\n    archived\n  }\n}'
+): (typeof documents)['query Directories {\n  directories {\n    directoryId\n    name\n    archived\n  }\n}'];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: 'query Project($projectId: ID!) {\n  project(projectId: $projectId) {\n    projectId\n    name\n    archived\n    directories {\n      directoryId\n      name\n    }\n    documents {\n      documentId\n    }\n  }\n}'
-): (typeof documents)['query Project($projectId: ID!) {\n  project(projectId: $projectId) {\n    projectId\n    name\n    archived\n    directories {\n      directoryId\n      name\n    }\n    documents {\n      documentId\n    }\n  }\n}'];
+  source: 'query Directory($directoryId: ID!) {\n  directory(directoryId: $directoryId) {\n    directoryId\n    name\n    archived\n    directories {\n      directoryId\n      name\n      archived\n    }\n    documents {\n      documentId\n      archived\n      currentVersion {\n        documentVersionId\n        number\n        name\n        extension\n      }\n      versions {\n        documentVersionId\n        number\n        name\n        extension\n      }\n      metadataValues {\n        definition {\n          metadataDefinitionId\n          key\n          label\n          type\n        }\n        value\n      }\n    }\n  }\n}'
+): (typeof documents)['query Directory($directoryId: ID!) {\n  directory(directoryId: $directoryId) {\n    directoryId\n    name\n    archived\n    directories {\n      directoryId\n      name\n      archived\n    }\n    documents {\n      documentId\n      archived\n      currentVersion {\n        documentVersionId\n        number\n        name\n        extension\n      }\n      versions {\n        documentVersionId\n        number\n        name\n        extension\n      }\n      metadataValues {\n        definition {\n          metadataDefinitionId\n          key\n          label\n          type\n        }\n        value\n      }\n    }\n  }\n}'];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: 'query Projects {\n  projects {\n    projectId\n    name\n    archived\n    directories {\n      directoryId\n      name\n    }\n    documents {\n      documentId\n    }\n  }\n}'
-): (typeof documents)['query Projects {\n  projects {\n    projectId\n    name\n    archived\n    directories {\n      directoryId\n      name\n    }\n    documents {\n      documentId\n    }\n  }\n}'];
+  source: 'query rootDirectories {\n  rootDirectories {\n    directoryId\n    name\n    archived\n    directories {\n      directoryId\n      name\n      archived\n    }\n  }\n}'
+): (typeof documents)['query rootDirectories {\n  rootDirectories {\n    directoryId\n    name\n    archived\n    directories {\n      directoryId\n      name\n      archived\n    }\n  }\n}'];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

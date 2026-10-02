@@ -1,4 +1,4 @@
-import { useProjects } from '@workspace/client-ui/api';
+import { useProjects } from '@workspace/api/react';
 import paths from '@workspace/client-ui/paths';
 import { Link } from 'react-router';
 import { Panel, PanelBody, PanelHeader } from '../Panel';

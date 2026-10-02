@@ -1,7 +1,7 @@
 import {
   GraphQLClientError,
   type GraphQLTransport,
-} from '@workspace/client-ui/api/graphql';
+} from '@workspace/api';
 
 // AbortSignal cannot cross IPC. Request cancellation needs a separate protocol.
 export const electronTransport: GraphQLTransport = async (request) => {

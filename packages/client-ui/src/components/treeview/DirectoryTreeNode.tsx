@@ -1,8 +1,8 @@
-import type { DirectoryQueryVariables } from '@/api/generated/graphql';
+import type { DirectoryQueryVariables } from '@workspace/api/generated';
 import { useState } from 'react';
 import TreeNode from './TreeNode';
 import Chevron from './Chevron';
-import { useDirectory } from '@workspace/client-ui/api';
+import { useDirectory } from '@workspace/api/react';
 
 export default function DirectoryTreeNode({
   directoryId,

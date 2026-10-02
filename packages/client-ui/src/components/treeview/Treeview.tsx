@@ -1,4 +1,4 @@
-import { useProjects } from '@workspace/client-ui/api';
+import { useProjects } from '@workspace/api/react';
 import ProjectTreeNode from './ProjectTreeNode';
 
 export default function Treeview() {

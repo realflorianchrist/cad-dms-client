@@ -1,5 +1,5 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
-import { createHttpGraphQLTransport } from '@workspace/client-ui/api/graphql';
+import { createHttpGraphQLTransport } from '@workspace/api';
 import { GRAPHQL_CHANNEL } from '../shared/api';
 import { handleGraphQLRequest } from './graphql';
 import { pathToFileURL, fileURLToPath } from 'node:url';

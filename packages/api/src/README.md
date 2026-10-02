@@ -4,6 +4,14 @@ The hooks accept generated `TypedDocumentNode` documents. Variables and result
 fields are inferred automatically; required query variables must be provided.
 TanStack Query still owns caching, retries, loading states and invalidation.
 
+## Package entry points
+
+- `@workspace/api`: transport, execution, errors and shared request/response types; no React imports.
+- `@workspace/api/react`: provider, query/mutation hooks and project/directory hooks.
+- `@workspace/api/generated`: generated GraphQL types and operation documents.
+
+Apps own endpoints, authentication and Electron IPC. This package does not depend on UI packages.
+
 ## Schema and generation
 
 `schema.graphqls` is a checked-in copy of
@@ -14,12 +22,12 @@ changes, then regenerate. No backend server is needed for generation or IntelliS
 From the repository root:
 
 ```sh
-pnpm --filter @workspace/client-ui codegen
-pnpm --filter @workspace/client-ui codegen:watch
+pnpm --filter @workspace/api codegen
+pnpm --filter @workspace/api codegen:watch
 ```
 
-Write operations in `src/api/operations/*.graphql`. Codegen validates them against
-the schema and writes `src/api/generated/`. Commit generated files; do not edit
+Write operations in `src/operations/*.graphql`. Codegen validates them against
+the schema and writes `src/generated/`. Commit generated files; do not edit
 them manually. The current schema has queries only, so no create-project mutation
 can be generated yet.
 
@@ -34,11 +42,11 @@ inside `.graphql` files. Both editor and codegen use the same schema snapshot.
 ## Shared hooks
 
 ```tsx
-import { useApiQuery } from '@workspace/client-ui/api';
+import { useApiQuery } from '@workspace/api/react';
 import {
   ProjectDocument,
   ProjectsDocument,
-} from '@workspace/client-ui/api/generated';
+} from '@workspace/api/generated';
 
 const projects = useApiQuery(ProjectsDocument, {
   queryKey: ['projects'],
@@ -69,10 +77,8 @@ this transport and a TanStack QueryClient (an existing `queryClient` can be pass
 The backend URL, authentication and Electron IPC handler remain app-owned.
 
 ```tsx
-import {
-  ApiProvider,
-  createHttpGraphQLTransport,
-} from '@workspace/client-ui/api';
+import { ApiProvider } from '@workspace/api/react';
+import { createHttpGraphQLTransport } from '@workspace/api';
 
 const transport = createHttpGraphQLTransport('/graphql');
 
@@ -84,7 +90,7 @@ const transport = createHttpGraphQLTransport('/graphql');
 For Electron, pass an adapter to a dedicated preload method:
 
 ```ts
-import type { GraphQLTransport } from '@workspace/client-ui/api';
+import type { GraphQLTransport } from '@workspace/api';
 
 const transport: GraphQLTransport = (request) => window.api.graphql(request);
 ```
@@ -95,7 +101,7 @@ transport, so IPC still receives a serializable request. Return the GraphQL enve
 (`data`, `errors`) from main. Validate IPC requests there and keep the endpoint fixed.
 Do not send AbortSignal through IPC; cancellation requires a separate IPC protocol.
 HTTP transports support cancellation directly. Main can import the HTTP helper
-from `@workspace/client-ui/api/graphql` without importing React.
+from `@workspace/api` without importing React.
 
 Hooks return only envelope `data`. GraphQL errors, including partial-data responses,
 reject with `GraphQLClientError`. Extensions and paths are preserved in `.errors`;
@@ -108,7 +114,7 @@ cache when switching users/backends.
 select their root fields, so components receive the list or project directly:
 
 ```tsx
-import { useProject, useProjects } from '@workspace/client-ui/api';
+import { useProject, useProjects } from '@workspace/api/react';
 
 const { data: projects, isPending } = useProjects();
 const { data: project } = useProject('example-id');

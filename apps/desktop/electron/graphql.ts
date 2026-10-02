@@ -2,7 +2,7 @@ import {
   GraphQLClientError,
   type GraphQLRequest,
   type GraphQLTransport,
-} from '@workspace/client-ui/api/graphql';
+} from '@workspace/api';
 import type { GraphQLIpcResult } from '../shared/api';
 
 function isRecord(value: unknown): value is Record<string, unknown> {

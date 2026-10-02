@@ -2,10 +2,8 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
 import { App } from '@workspace/client-ui';
-import {
-  ApiProvider,
-  createHttpGraphQLTransport,
-} from '@workspace/client-ui/api';
+import { ApiProvider } from '@workspace/api/react';
+import { createHttpGraphQLTransport } from '@workspace/api';
 import { ThemeProvider } from '@workspace/client-ui/components/ThemeProvider';
 import { BrowserRouter } from 'react-router';
 import './styles.css';

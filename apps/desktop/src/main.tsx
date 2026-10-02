@@ -1,4 +1,4 @@
-import { ApiProvider } from '@workspace/client-ui/api';
+import { ApiProvider } from '@workspace/api/react';
 import { electronTransport } from './apiTransport';
 import { App } from '@workspace/client-ui';
 import { ThemeProvider } from '@workspace/client-ui/components/ThemeProvider';

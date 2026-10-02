@@ -2,10 +2,10 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
   hooks: { afterAllFileWrite: ['prettier --write'] },
-  schema: 'src/api/schema.graphqls',
-  documents: 'src/api/operations/**/*.graphql',
+  schema: 'src/schema.graphqls',
+  documents: 'src/operations/**/*.graphql',
   generates: {
-    'src/api/generated/': {
+    'src/generated/': {
       preset: 'client',
       presetConfig: { fragmentMasking: false },
       config: {

@@ -1,9 +1,6 @@
 import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
-import { useApiMutation, useApiQuery } from '../src/api/client/reactQuery';
-import {
-  ProjectDocument,
-  ProjectsDocument,
-} from '../src/api/generated/graphql';
+import { useApiMutation, useApiQuery } from '../src/client/reactQuery';
+import { ProjectDocument, ProjectsDocument } from '../src/generated/graphql';
 
 // Compile-only regression checks; never rendered or executed.
 export function useApiTypeChecks() {

@@ -1,2 +1,2 @@
-schema: packages/client-ui/src/api/schema.graphqls
-documents: packages/client-ui/src/api/operations/**/*.graphql
+schema: packages/api/src/schema.graphqls
+documents: packages/api/src/operations/**/*.graphql

@@ -2,7 +2,7 @@ import type {
   GraphQLRequest,
   GraphQLResponse,
   GraphQLResponseError,
-} from '@workspace/client-ui/api/graphql';
+} from '@workspace/api';
 
 export const GRAPHQL_CHANNEL = 'api:graphql';
 

@@ -1,4 +1,4 @@
-import type { ProjectQuery } from '@/api/generated/graphql';
+import type { ProjectQuery } from '@workspace/api/generated';
 import { useState } from 'react';
 import TreeNode from './TreeNode';
 import Chevron from './Chevron';

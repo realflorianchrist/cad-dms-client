@@ -1,25 +1,49 @@
 scalar DateTime
 scalar Long
 
+enum MetadataType {
+  TEXT
+  NUMBER
+  BOOLEAN
+  DATE
+  ENUM
+}
+
+enum MetadataTargetType {
+  DIRECTORY
+  DOCUMENT
+}
+
+enum MetadataReach {
+  SELF
+  CHILDREN
+  DESCENDANTS
+}
+
+type MetadataDefinition {
+  metadataDefinitionId: ID!
+  key: String!
+  label: String!
+  type: MetadataType!
+  options: [String!]!
+}
+
+type MetadataBinding {
+  definition: MetadataDefinition!
+  targetTypes: [MetadataTargetType!]!
+  reach: MetadataReach!
+  required: Boolean!
+  defaultValue: String
+}
+
+type MetadataValue {
+  definition: MetadataDefinition!
+  value: String!
+}
+
 type User {
   userId: ID!
   displayName: String!
-}
-
-type Project {
-  projectId: ID!
-  name: String!
-
-  createdAt: DateTime!
-  createdBy: User!
-
-  updatedAt: DateTime!
-  updatedBy: User!
-
-  archived: Boolean!
-
-  documents: [Document!]!
-  directories: [Directory!]!
 }
 
 type Directory {
@@ -36,6 +60,9 @@ type Directory {
 
   documents: [Document!]!
   directories: [Directory!]!
+
+  metadataBindings: [MetadataBinding!]!
+  metadataValues: [MetadataValue!]!
 }
 
 type Document {
@@ -51,6 +78,9 @@ type Document {
 
   currentVersion: DocumentVersion!
   versions: [DocumentVersion!]!
+
+  metadataBindings: [MetadataBinding!]!
+  metadataValues: [MetadataValue!]!
 }
 
 type DocumentVersion {
@@ -74,12 +104,9 @@ type Query {
   user(userId: ID!): User
   users: [User!]!
 
-  project(projectId: ID!): Project
-  projects: [Project!]!
-
   directory(directoryId: ID!): Directory
+  directories: [Directory!]!
 
-  # projectData(projectId: ID!): Data!
   # directoryData(directoryId: ID!): Data!
 
   # directoryTree(directoryId: ID!, depth: Int! = 2): Directory!

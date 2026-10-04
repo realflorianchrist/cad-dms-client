@@ -1,9 +1,9 @@
+import { createHttpGraphQLTransport } from '@workspace/client-ui/api/graphql';
 import { app, BrowserWindow, ipcMain } from 'electron';
-import { createHttpGraphQLTransport } from '@workspace/api';
+import path from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { GRAPHQL_CHANNEL } from '../shared/api';
 import { handleGraphQLRequest } from './graphql';
-import { pathToFileURL, fileURLToPath } from 'node:url';
-import path from 'node:path';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -65,30 +65,29 @@ app.on('activate', () => {
   }
 });
 
-app.whenReady().then(() => {
-  const transport = createHttpGraphQLTransport(
-    process.env.CAD_DMS_GRAPHQL_URL ?? 'http://localhost:8080/graphql'
-  );
+await app.whenReady();
 
-  ipcMain.handle(GRAPHQL_CHANNEL, (event, request: unknown) => {
-    const frame = event.senderFrame;
-    const expectedUrl = VITE_DEV_SERVER_URL
-      ? new URL(VITE_DEV_SERVER_URL)
-      : pathToFileURL(path.join(RENDERER_DIST, 'index.html'));
-    const actualUrl = frame ? new URL(frame.url) : null;
-    // HashRouter changes the fragment, but the trusted document stays the same.
-    expectedUrl.hash = '';
-    if (actualUrl) actualUrl.hash = '';
-    if (
-      !win ||
-      event.sender !== win.webContents ||
-      frame !== win.webContents.mainFrame ||
-      actualUrl?.href !== expectedUrl.href
-    ) {
-      throw new Error('Unauthorized GraphQL IPC sender');
-    }
-    return handleGraphQLRequest(transport, request);
-  });
+const transport = createHttpGraphQLTransport(
+  process.env.CAD_DMS_GRAPHQL_URL ?? 'http://localhost:8080/graphql'
+);
 
-  createWindow();
+ipcMain.handle(GRAPHQL_CHANNEL, (event, request: unknown) => {
+  const frame = event.senderFrame;
+  const expectedUrl = VITE_DEV_SERVER_URL
+    ? new URL(VITE_DEV_SERVER_URL)
+    : pathToFileURL(path.join(RENDERER_DIST, 'index.html'));
+  const actualUrl = frame ? new URL(frame.url) : null;
+  // HashRouter changes the fragment, but the trusted document stays the same.
+  expectedUrl.hash = '';
+  if (actualUrl) actualUrl.hash = '';
+  if (
+    event.sender !== win?.webContents ||
+    frame !== win.webContents.mainFrame ||
+    actualUrl?.href !== expectedUrl.href
+  ) {
+    throw new Error('Unauthorized GraphQL IPC sender');
+  }
+  return handleGraphQLRequest(transport, request);
 });
+
+createWindow();

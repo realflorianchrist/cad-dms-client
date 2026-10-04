@@ -1,4 +1,4 @@
-import { createHttpGraphQLTransport } from '@workspace/client-ui/api/graphql';
+import { createHttpGraphQLTransport } from '@workspace/api';
 import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';

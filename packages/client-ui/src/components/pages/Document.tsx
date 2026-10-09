@@ -1,15 +1,15 @@
 import { useDocument } from '@workspace/api/react';
 import { Link, useParams } from 'react-router';
 import paths from '../../paths';
-import { Panel, PanelBody, PanelHeader } from '../Panel';
+import { Panel, PanelBody, PanelHeader } from '../panels/Panel';
 
 export default function Document() {
-  const { directoryId = '', id = '' } = useParams<{
+  const { directoryId = '', documentId = '' } = useParams<{
     directoryId: string;
-    id: string;
+    documentId: string;
   }>();
 
-  const query = useDocument(directoryId, id);
+  const query = useDocument(directoryId, documentId);
   const document = query.data;
 
   return (

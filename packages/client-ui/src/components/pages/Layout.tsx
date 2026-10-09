@@ -4,9 +4,10 @@ import {
   ResizablePanelGroup,
 } from '@workspace/ui/components/resizable';
 import { Outlet } from 'react-router';
-import LeftPanel from '../LeftPanel';
-import MainPanel from '../MainPanel';
-import RightPanel from '../RightPanel';
+import Footer from '../Footer';
+import LeftPanel from '../panels/LeftPanel';
+import MainPanel from '../panels/MainPanel';
+import RightPanel from '../panels/RightPanel';
 
 export default function Layout() {
   return (
@@ -23,7 +24,7 @@ export default function Layout() {
           <LeftPanel />
         </ResizablePanel>
         <ResizableHandle />
-        <ResizablePanel defaultSize={'70'}>
+        <ResizablePanel>
           <MainPanel>
             <Outlet />
           </MainPanel>
@@ -33,7 +34,7 @@ export default function Layout() {
           <RightPanel />
         </ResizablePanel>
       </ResizablePanelGroup>
-      <footer>footer</footer>
+      <Footer />
     </>
   );
 }

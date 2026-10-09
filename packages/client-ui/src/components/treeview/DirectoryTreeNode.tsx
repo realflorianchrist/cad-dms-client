@@ -1,17 +1,20 @@
 import type { DirectoriesQuery } from '@workspace/api/generated';
 import { useDirectory } from '@workspace/api/react';
 import { useState } from 'react';
+import { IoFolderOpenOutline } from 'react-icons/io5';
+import { VscFile } from 'react-icons/vsc';
 import { Link } from 'react-router';
 import paths from '../../paths';
-import TreeNode from './TreeNode';
 import Chevron from './Chevron';
+import TreeNode from './TreeNode';
+
 export default function DirectoryTreeNode({
   directory,
   depth = 0,
-}: {
+}: Readonly<{
   directory: DirectoriesQuery['directories'][number];
   depth?: number;
-}) {
+}>) {
   const [isOpen, setIsOpen] = useState(false);
   const query = useDirectory(directory.directoryId, { enabled: isOpen });
   const contents = query.data;
@@ -19,7 +22,7 @@ export default function DirectoryTreeNode({
   return (
     <div>
       <TreeNode depth={depth}>
-        <div className="flex w-full items-center">
+        <div className={'flex w-full items-center'}>
           <Chevron
             isVisible={
               contents == null ||
@@ -31,10 +34,10 @@ export default function DirectoryTreeNode({
           />
           <Link
             to={paths.directory.to(directory.directoryId)}
-            className="flex-1"
+            className={'flex flex-1 items-center gap-2'}
           >
+            <IoFolderOpenOutline />
             {directory.name}
-            {directory.archived && ' (archived)'}
           </Link>
         </div>
       </TreeNode>
@@ -56,17 +59,17 @@ export default function DirectoryTreeNode({
           ))}
           {contents?.documents.map((document) => (
             <TreeNode key={document.documentId} depth={depth + 1}>
-              <Chevron isVisible={false} isOpen={false} setIsOpen={() => {}} />
               <Link
                 to={paths.document.to(
                   directory.directoryId,
                   document.documentId
                 )}
+                className={'flex flex-1 items-center gap-2 pl-4'}
               >
+                <VscFile />
                 {document.currentVersion.name}
                 {document.currentVersion.extension &&
                   `.${document.currentVersion.extension}`}
-                {document.archived && ' (archived)'}
               </Link>
             </TreeNode>
           ))}

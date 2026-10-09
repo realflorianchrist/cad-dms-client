@@ -5,12 +5,15 @@ import {
 } from '@workspace/ui/components/resizable';
 import type { ReactNode } from 'react';
 import { useParams } from 'react-router';
-import { Panel, PanelBody, PanelHeader } from './Panel';
+import { Panel, PanelBody, PanelHeader } from '../panels/Panel';
 
 export default function MainPanel({
   children,
 }: Readonly<{ children: ReactNode }>) {
-  const { id } = useParams<{ id: string }>();
+  const { directoryId = '', documentId = '' } = useParams<{
+    directoryId: string;
+    documentId: string;
+  }>();
 
   return (
     <ResizablePanelGroup
@@ -24,7 +27,9 @@ export default function MainPanel({
       <ResizablePanel>
         <Panel>
           <PanelHeader>Infos</PanelHeader>
-          <PanelBody>to {id}</PanelBody>
+          <PanelBody>
+            to {directoryId} {documentId}
+          </PanelBody>
         </Panel>
       </ResizablePanel>
     </ResizablePanelGroup>

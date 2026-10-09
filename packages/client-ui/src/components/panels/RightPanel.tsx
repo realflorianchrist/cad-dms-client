@@ -4,15 +4,15 @@ import { Panel, PanelBody, PanelHeader } from './Panel';
 
 // TODO: add metadata components
 export default function RightPanel() {
-  const { directoryId = '', id = '' } = useParams<{
+  const { directoryId = '', documentId = '' } = useParams<{
     directoryId: string;
-    id: string;
+    documentId: string;
   }>();
 
-  const directoryQuery = useDirectory(id);
+  const directoryQuery = useDirectory(directoryId);
   const directory = directoryQuery.data;
 
-  const documentQuery = useDocument(directoryId, id);
+  const documentQuery = useDocument(directoryId, documentId);
   const document = documentQuery.data;
 
   return (

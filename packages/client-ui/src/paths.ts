@@ -3,13 +3,14 @@ const paths = {
     path: '/',
   },
   document: {
-    path: '/directory/:directoryId/document/:id',
-    to: (directoryId: string, id: string) =>
-      `/directory/${encodeURIComponent(directoryId)}/document/${encodeURIComponent(id)}`,
+    path: '/directory/:directoryId/document/:documentId',
+    to: (directoryId: string, documentId: string) =>
+      `/directory/${encodeURIComponent(directoryId)}/document/${encodeURIComponent(documentId)}`,
   },
   directory: {
-    path: '/directory/:id',
-    to: (id: string) => `/directory/${encodeURIComponent(id)}`,
+    path: '/directory/:directoryId',
+    to: (directoryId: string) =>
+      `/directory/${encodeURIComponent(directoryId)}`,
   },
 };
 

@@ -4,14 +4,14 @@ import { type ReactNode } from 'react';
 export default function TreeNode({
   depth = 0,
   children,
-}: {
+}: Readonly<{
   depth?: number;
   children: ReactNode;
-}) {
+}>) {
   return (
     <div
       className={cn(
-        'flex cursor-pointer gap-2 text-sm select-none',
+        'flex cursor-pointer gap-2 text-sm text-nowrap select-none',
         'rounded-md py-1 hover:bg-accent/40'
       )}
       style={{ paddingLeft: `${depth * 0.5}rem` }}

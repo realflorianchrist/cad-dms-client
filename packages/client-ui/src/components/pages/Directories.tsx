@@ -1,7 +1,7 @@
 import { Link } from 'react-router';
-import paths from '../../paths';
-import { Panel, PanelBody, PanelHeader } from '../Panel';
 import { useRootDirectories } from '../../../../api/src/hooks/useDirectories';
+import paths from '../../paths';
+import { Panel, PanelBody, PanelHeader } from '../panels/Panel';
 
 export default function Directories() {
   const query = useRootDirectories();

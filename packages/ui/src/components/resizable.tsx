@@ -22,7 +22,7 @@ function ResizablePanel({ ...props }: ResizablePrimitive.PanelProps) {
 }
 
 function ResizableHandle({
-  withHandle,
+  withHandle = true,
   className,
   ...props
 }: ResizablePrimitive.SeparatorProps & {
@@ -32,13 +32,16 @@ function ResizableHandle({
     <ResizablePrimitive.Separator
       data-slot="resizable-handle"
       className={cn(
-        'relative flex w-2 items-center justify-center bg-background ring-offset-background after:absolute after:inset-y-0 after:left-1/2 after:w-1 after:-translate-x-1/2 focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-hidden aria-[orientation=horizontal]:h-2 aria-[orientation=horizontal]:w-full aria-[orientation=horizontal]:after:left-0 aria-[orientation=horizontal]:after:h-1 aria-[orientation=horizontal]:after:w-full aria-[orientation=horizontal]:after:translate-x-0 aria-[orientation=horizontal]:after:-translate-y-1/2 [&[aria-orientation=horizontal]>div]:rotate-90',
+        'group relative flex w-2 items-center justify-center bg-background ring-offset-background after:absolute after:inset-y-0 after:left-1/2 after:w-1 after:-translate-x-1/2 focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-hidden aria-[orientation=horizontal]:h-2 aria-[orientation=horizontal]:w-full aria-[orientation=horizontal]:after:left-0 aria-[orientation=horizontal]:after:h-1 aria-[orientation=horizontal]:after:w-full aria-[orientation=horizontal]:after:translate-x-0 aria-[orientation=horizontal]:after:-translate-y-1/2 [&[aria-orientation=horizontal]>div]:rotate-90',
         className
       )}
       {...props}
     >
       {withHandle && (
-        <div className="z-10 flex h-6 w-1 shrink-0 rounded-lg bg-border" />
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-y-0 left-1/2 w-1 -translate-x-1/2 rounded-full bg-accent opacity-0 transition-opacity group-hover:opacity-100 group-aria-[orientation=horizontal]:inset-x-0 group-aria-[orientation=horizontal]:inset-y-auto group-aria-[orientation=horizontal]:top-1/2 group-aria-[orientation=horizontal]:h-1 group-aria-[orientation=horizontal]:w-auto group-aria-[orientation=horizontal]:translate-x-0 group-aria-[orientation=horizontal]:-translate-y-1/2"
+        />
       )}
     </ResizablePrimitive.Separator>
   );

@@ -10,7 +10,7 @@ function Panel({
   return (
     <div
       className={cn(
-        'neu-shadow flex h-full w-full flex-col overflow-hidden rounded-lg px-4 py-2',
+        'neu-shadow-inset flex h-full w-full flex-col overflow-hidden rounded-lg px-4 py-2',
         className
       )}
       {...props}

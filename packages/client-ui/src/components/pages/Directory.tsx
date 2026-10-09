@@ -1,11 +1,11 @@
 import { useDirectory } from '@workspace/api/react';
 import { Link, useParams } from 'react-router';
 import paths from '../../paths';
-import { Panel, PanelBody, PanelHeader } from '../Panel';
+import { Panel, PanelBody, PanelHeader } from '../panels/Panel';
 
 export default function Directory() {
-  const { id = '' } = useParams<{ id: string }>();
-  const query = useDirectory(id);
+  const { directoryId = '' } = useParams<{ directoryId: string }>();
+  const query = useDirectory(directoryId);
   const directory = query.data;
 
   return (
@@ -43,7 +43,9 @@ export default function Directory() {
               <ul>
                 {directory.documents.map((document) => (
                   <li key={document.documentId}>
-                    <Link to={paths.document.to(id, document.documentId)}>
+                    <Link
+                      to={paths.document.to(directoryId, document.documentId)}
+                    >
                       {document.currentVersion.name}
                       {document.currentVersion.extension &&
                         ' (.' + document.currentVersion.extension + ')'}

@@ -4,7 +4,7 @@ import {
   ResizablePanelGroup,
 } from '@workspace/ui/components/resizable';
 import { Panel, PanelBody, PanelHeader } from './Panel';
-import Treeview from './treeview/Treeview';
+import Treeview from '../treeview/Treeview';
 
 export default function LeftPanel() {
   return (

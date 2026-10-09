@@ -14,9 +14,9 @@ export default function LeftPanel() {
         className={'flex w-full flex-1'}
       >
         <ResizablePanel maxSize={'80'}>
-          <Panel>
-            <PanelHeader>nav-1</PanelHeader>
-            <PanelBody className={'px-0'}>
+          <Panel className={'pl-0'}>
+            <PanelHeader className={'pl-4'}>nav-1</PanelHeader>
+            <PanelBody>
               <Treeview />
             </PanelBody>
           </Panel>

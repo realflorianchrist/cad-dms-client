@@ -3,9 +3,9 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from '@workspace/ui/components/resizable';
+import type { ReactNode } from 'react';
 import { useParams } from 'react-router';
 import { Panel, PanelBody, PanelHeader } from './Panel';
-import type { ReactNode } from 'react';
 
 export default function MainPanel({
   children,

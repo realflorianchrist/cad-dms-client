@@ -2,10 +2,12 @@ import { useDirectory } from '@workspace/api/react';
 import { Link, useParams } from 'react-router';
 import paths from '../../paths';
 import { Panel, PanelBody, PanelHeader } from '../Panel';
+
 export default function Directory() {
   const { id = '' } = useParams<{ id: string }>();
   const query = useDirectory(id);
   const directory = query.data;
+
   return (
     <Panel>
       <PanelHeader>
